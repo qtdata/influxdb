@@ -76,8 +76,13 @@ impl SchemaBuilder {
             InfluxColumnType::Field(influx_field_type) => self
                 .field(column_name, influx_field_type.into())
                 .expect("just converted this from a valid type"),
-            InfluxColumnType::Timestamp => self.timestamp(),
+            InfluxColumnType::Timestamp => self.timestamp_new(column_name),
         }
+    }
+    pub fn timestamp_new(&mut self, column_name: impl Into<String>) -> &mut Self {
+        let influxdb_column_type = InfluxColumnType::Timestamp;
+        let arrow_type = (&influxdb_column_type).into();
+        self.add_column(column_name, false, influxdb_column_type, arrow_type)
     }
 
     /// Add a new nullable field column with the specified Arrow datatype.

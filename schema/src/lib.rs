@@ -224,14 +224,6 @@ impl Schema {
                         nullable: expected_nullable,
                     });
                 }
-
-                if (influxdb_column_type == InfluxColumnType::Timestamp)
-                    && (column_name != TIME_COLUMN_NAME)
-                {
-                    return Err(Error::WrongTimeColumnName {
-                        column_name: column_name.to_string(),
-                    });
-                }
             }
         }
 
